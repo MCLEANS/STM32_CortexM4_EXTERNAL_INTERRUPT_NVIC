@@ -11,6 +11,12 @@
 
 #include "stm32f4xx.h"
 			
+void EXTI3_IRQ_handler(){
+	if(EXTI->PR & (EXTI_PR_PR3)){
+		EXTI->PR |= EXTI_PR_PR3;
+		GPIOA->ODR ^= GPIO_ODR_ODR_3;
+	}
+}
 
 int main(void)
 {
@@ -30,7 +36,17 @@ int main(void)
 	//enable NVIC interrupt
 	NVIC_EnableIRQ(EXTI3_IRQn);
 
+	//enable GPIOE RCC
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
+	//SET pin to Input pull up
+	GPIOE->PUPDR |= GPIO_PUPDR_PUPDR3_0;
+
 	//enable GPIOA RCC
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+	//SET GPIOA 6 to output
+	GPIOA->MODER |= GPIO_MODER_MODER3_0;
+
+
 
 
 	while(1){
