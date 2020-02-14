@@ -30,7 +30,7 @@ int toggle = 0;
 
 int main(void)
 {
-	/*
+
 	//---------Configure PLL 168MHz as clock source-------------
 	//SET FLASH MEMORY LATENCY AND ENABLE PREFETCH
 		FLASH->ACR &= ~FLASH_ACR_LATENCY;
@@ -69,8 +69,7 @@ int main(void)
 		//check to confirm PLL being used
 		while(!(RCC->CFGR & RCC_CFGR_SWS_PLL )){}
 
-	------------------------------------------------------*/
-
+	//------------------------------------------------------
 	//Enable the system configuration RCC
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 	//enable GPIOE RCC
@@ -114,7 +113,7 @@ int main(void)
 	while(1){
 		if(EXTI->PR & (EXTI_PR_PR3)){
 				EXTI->PR |= EXTI_PR_PR3;
-				toggle = true;
+				toggle = 1;
 			}
 
 		if(toggle == 1){
