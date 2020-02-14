@@ -15,13 +15,12 @@ int toggle = 0;
 
 
 
-
-//void EXTI3_IRQHandler(void){
-///	if(EXTI->PR & (EXTI_PR_PR3)){
-//		EXTI->PR |= EXTI_PR_PR3;
-///		toggle = 1;
-//	}
-//}
+extern "C" void EXTI3_IRQHandler(void){
+	if(EXTI->PR & (EXTI_PR_PR3)){
+		EXTI->PR |= EXTI_PR_PR3;
+		toggle = 1;
+	}
+}
 
 
 
@@ -103,18 +102,15 @@ int main(void)
 
 
 
-
-	//enable NVIC interrupt
-	NVIC_EnableIRQ(EXTI2_IRQn);
 	//set NVIC interrupt priority
-	NVIC_SetPriority(EXTI2_IRQn,0);
+	NVIC_SetPriority(EXTI3_IRQn,0);
+	//enable NVIC interrupt
+	NVIC_EnableIRQ(EXTI3_IRQn);
+
 
 
 	while(1){
-		if(EXTI->PR & (EXTI_PR_PR3)){
-				EXTI->PR |= EXTI_PR_PR3;
-				toggle = 1;
-			}
+
 
 		if(toggle == 1){
 			GPIOA->ODR ^= GPIO_ODR_ODR_7;
